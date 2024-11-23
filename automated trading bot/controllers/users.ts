@@ -115,7 +115,9 @@ const login = async (req: LoginRequest, res: Response): Promise<void> => {
 
   const user = await User.findOne({ email })
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    res.status(401).json({ message: 'Invalid email or password' })
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: 'Invalid email or password' })
     return
   }
 
@@ -128,7 +130,7 @@ const login = async (req: LoginRequest, res: Response): Promise<void> => {
     await sendEmail(user.email, 'Your MFA Code', `Your MFA code is: ${mfaCode}`)
 
     res
-      .status(200)
+      .status(StatusCodes.OK)
       .json({ mfaRequired: true, message: 'MFA code sent. Please verify.' })
     return
   }
