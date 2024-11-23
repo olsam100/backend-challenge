@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes'
 import { Request, Response, NextFunction } from 'express'
 
 export interface AuthenticatedRequest extends Request {
-  user?: { _id: string; [key: string]: any }
+  user?: { _id: string; [key: string]: unknown }
 }
 
 const auth = async (
